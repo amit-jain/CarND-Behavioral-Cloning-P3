@@ -52,33 +52,33 @@ def driving_model(input_shape):
 
     model.add(Convolution2D(24, 8, 8, input_shape=input_shape, subsample=(2, 2), name='conv1'))
     model.add(BatchNormalization())
-    model.add(Activation('elu', name='relu_1'))
+    model.add(Activation('elu', name='elu_1'))
 
     model.add(Convolution2D(36, 5, 5, subsample=(2, 2), name='conv2'))
     model.add(BatchNormalization())
-    model.add(Activation('elu', name='relu_2'))
+    model.add(Activation('elu', name='elu_2'))
 
     model.add(Convolution2D(48, 5, 5, subsample=(2, 2), name='conv3'))
-    model.add(Activation('elu', name='relu_3'))
+    model.add(Activation('elu', name='elu_3'))
 
     model.add(Convolution2D(64, 3, 3, name='conv4'))
-    model.add(Activation('elu', name='relu_4'))
+    model.add(Activation('elu', name='elu_4'))
 
     model.add(Convolution2D(64, 3, 3, name='conv5'))
-    model.add(Activation('elu', name='relu_5'))
+    model.add(Activation('elu', name='elu_5'))
 
     model.add(Flatten(name='flatten'))
 
     model.add(Dense(256, W_regularizer=l2(0.01), name='fc1'))
-    model.add(Activation('elu', name='relu_7'))
+    model.add(Activation('elu', name='elu_7'))
     model.add(Dropout(0.4))
 
     model.add(Dense(100, W_regularizer=l2(0.01), name='fc3'))
-    model.add(Activation('elu', name='relu_8'))
+    model.add(Activation('elu', name='elu_8'))
     model.add(Dropout(0.4))
 
     model.add(Dense(10, W_regularizer=l2(0.01), name='fc4'))
-    model.add(Activation('elu', name='relu_9'))
+    model.add(Activation('elu', name='elu_9'))
     model.add(Dropout(0.4))
 
     model.add(Dense(1, activation='linear', name='output'))
