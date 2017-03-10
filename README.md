@@ -39,7 +39,7 @@ the Keras model used
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network
 * data_pre_process.ipynb jupyter notebook for data summarization & cleaning
-* writeup_report.md or writeup_report.pdf summarizing the results
+* README.md summarizing the results
 
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
@@ -103,18 +103,16 @@ The following are the images after cropping for the above samples
 ####1. Initial design and experiments
 
 Initially I tried creating a model over a pre-trained VGG with fine tuning. But the model seemed to overfit the data 
-and not learn the features that would make a generalized model. Depending on different approached for the top layer 
-it would either drive straight through or drive in circles. 
+and not particularly learn well the features that would make a generalized model for lane driving. Depending on different approaches for the top layer it would either drive straight through or drive in circles. 
 
-This approach was abandoned because apart for overfitting the model would take quite a lot of time to train the whole 
+This approach was abandoned because apart for overfitting, the model would take quite a lot of time to train the complete 
 model even with using bottleneck features and with or without fine tuning in part because there was a lot of 
-experimentation done with the data distribution and augmentation techniques. Intuitively, it seemed that the images 
-being trained or has far less information to be learnt than the model was able to represent.
+experimentation done with the data distribution and augmentation techniques as well which necessitated running through the complete model and not just the top layers. Intuitively, it seemed that the images being trained had far less information to be learnt than the model was able to represent. The most important feature here is the track and the model should be able to learn it different curvature, slope gradient etc.
  
 ####2. Finalized model
 
-The model that was finally used is a variant of the model used by 
-[Nvidia model](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)
+The model that was finally used is a variant of the model used for self-driving car by 
+[Nvidia](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)
 
 The following changes were done to the model to fit the date and generalize well :
 * Replace the first convolution layer kernel from being 5 x 5 to 8 x 8 to try to focus attention on the track.
@@ -122,12 +120,13 @@ The following changes were done to the model to fit the date and generalize well
 * First and second fully connected layers were changed from 100 and 50 to 256 and 100 respectively.
 * Added a dropout with 40% keep probability after all the fully connected layers.
 
-BatchNormalization layers and the Dropout layers primarily worked to regularize the model to not overfit.
+BatchNormalization layers help in accelerating the learning process as they solve the internal co-variant shift problem and also because they have some regularizing effect. Refer [Batch Normalization quora thread](https://www.quora.com/Why-does-batch-normalization-help)
+Dropout layers help to regularize the model to not overfit to the training data. In effect the initial convolution layers use batch normalization for faster regularizing but the fully connected layers use dropouts for regularization which seemed to present a good balance between faster learning as well as proper regularization.
 
 The model used an Adam optimizer with a mean squared error as the objective function to determine the performance of 
 the model.
 
-The following screen shot gives the model summary used for traininga
+The following screen shot gives the summary of the model used and also the number of parameters being used 
 ![image14]
 
 ####3. Future Enhancements
